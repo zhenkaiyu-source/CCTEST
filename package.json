@@ -1,0 +1,65 @@
+{
+  "name": "ceramics-creator",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "electron:dev": "cross-env NODE_ENV=development electron .",
+    "electron:build": "npm run build && electron-builder",
+    "electron:build:win": "npm run build && electron-builder --win --x64",
+    "electron:build:dir": "npm run build && electron-builder --dir"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "axios": "^1.6.2",
+    "dayjs": "^1.11.10",
+    "element-plus": "^2.4.4",
+    "pinia": "^2.1.7",
+    "vue": "^3.4.0",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.5.2",
+    "cross-env": "^7.0.3",
+    "electron": "^40.4.0",
+    "electron-builder": "^26.7.0",
+    "playwright": "^1.58.2",
+    "sass": "^1.69.5",
+    "vite": "^5.0.10"
+  },
+  "build": {
+    "appId": "com.ceramics.creator",
+    "productName": "瓷韵 · 陶瓷手作平台",
+    "copyright": "© 2024 瓷韵科技",
+    "directories": {
+      "output": "dist/electron"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "public/**/*",
+      "index.js",
+      "package.json"
+    ],
+    "win": {
+      "target": "dir",
+      "icon": "public/icon.png",
+      "forceCodeSigning": false
+    }
+  },
+  "keywords": [
+    "ceramics",
+    "art",
+    "ecommerce",
+    "platform"
+  ],
+  "author": {
+    "name": "瓷韵科技",
+    "email": "contact@ceramics.example.com"
+  },
+  "homepage": "https://ceramics.example.com"
+}

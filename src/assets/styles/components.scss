@@ -1,0 +1,388 @@
+@import './variables.scss';
+
+// --- Button 组件样式 ---
+.ceramics-btn {
+  height: 42px;
+  padding: 0 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  outline: none;
+
+  &-primary {
+    background: linear-gradient(135deg, $primary, $accent);
+    color: $white;
+    box-shadow: 0 4px 14px rgba($primary, 0.3);
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba($primary, 0.4);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+
+  &-secondary {
+    background: $white;
+    border: 1px solid $border;
+    color: $text;
+
+    &:hover {
+      background: #F8FAFC;
+      border-color: $primary;
+      color: $primary;
+    }
+  }
+
+  &-ghost {
+    background: transparent;
+    color: $text-secondary;
+
+    &:hover {
+      background: #F1F5F9;
+      color: $primary;
+    }
+  }
+
+  &-danger {
+    background: #F43F5E;
+    color: $white;
+    box-shadow: 0 4px 14px rgba(#F43F5E, 0.3);
+
+    &:hover {
+      background: #E11D48;
+    }
+  }
+
+  &-outline {
+    background: transparent;
+    border: 1px solid $border;
+    color: $text-secondary;
+
+    &:hover {
+      border-color: $primary;
+      color: $primary;
+    }
+  }
+
+  &-sm {
+    height: 32px;
+    padding: 0 12px;
+    font-size: 12px;
+  }
+
+  &-lg {
+    height: 48px;
+    padding: 0 24px;
+    font-size: 16px;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// --- Input 组件样式 ---
+.ceramics-input {
+  height: 42px;
+  padding: 0 16px;
+  border: 1px solid $border;
+  border-radius: 8px;
+  background: $white;
+  font-size: 14px;
+  color: $text;
+  outline: none;
+  transition: all 0.2s ease;
+  width: 100%;
+
+  &::placeholder {
+    color: #94A3B8;
+  }
+
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.1);
+  }
+
+  &-sm {
+    height: 32px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
+  &-lg {
+    height: 48px;
+    padding: 0 20px;
+    font-size: 16px;
+  }
+}
+
+// --- Card 组件样式 ---
+.ceramics-card {
+  background: $white;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba($border, 0.5);
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  &-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid #F1F5F9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: $text;
+      margin: 0;
+    }
+  }
+
+  &-body {
+    padding: 24px;
+  }
+
+  &-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #F1F5F9;
+    background: #FAFBFC;
+  }
+}
+
+// --- Badge 组件样式 ---
+.ceramics-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+
+  &.status-已上架 {
+    background: #E8F5E9;
+    color: #2E7D32;
+    border: 1px solid #A5D6A7;
+  }
+
+  &.status-已下架 {
+    background: #F5F5F5;
+    color: #666666;
+    border: 1px solid #E0E0E0;
+  }
+
+  &.status-待发货 {
+    background: #FFF3E0;
+    color: #E65100;
+    border: 1px solid #FFCC80;
+  }
+
+  &.status-已发货 {
+    background: #E3F2FD;
+    color: #1565C0;
+    border: 1px solid #90CAF9;
+  }
+
+  &.status-已完成 {
+    background: #E8F5E9;
+    color: #2E7D32;
+    border: 1px solid #A5D6A7;
+  }
+
+  &.status-已取消 {
+    background: #FFEBEE;
+    color: #C62828;
+    border: 1px solid #EF9A9A;
+  }
+}
+
+// --- IconBox 组件样式 ---
+.ceramics-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+  }
+
+  svg {
+    position: relative;
+    z-index: 1;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover svg {
+    transform: scale(1.1);
+  }
+
+  &.gradient-blue {
+    background: linear-gradient(135deg, #3B82F6, #2563EB);
+  }
+
+  &.gradient-violet {
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+  }
+
+  &.gradient-amber {
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+  }
+
+  &.gradient-emerald {
+    background: linear-gradient(135deg, #10B981, #059669);
+  }
+
+  &.gradient-indigo {
+    background: linear-gradient(135deg, $primary, #4338CA);
+  }
+
+  &.gradient-rose {
+    background: linear-gradient(135deg, #F43F5E, #E11D48);
+  }
+}
+
+// --- Textarea ---
+.ceramics-textarea {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid $border;
+  border-radius: 8px;
+  background: $white;
+  font-size: 14px;
+  color: $text;
+  outline: none;
+  transition: all 0.2s ease;
+  resize: none;
+  min-height: 140px;
+
+  &::placeholder {
+    color: #94A3B8;
+  }
+
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.1);
+  }
+}
+
+// --- Select ---
+.ceramics-select {
+  width: 100%;
+  height: 42px;
+  padding: 0 16px;
+  border: 1px solid $border;
+  border-radius: 8px;
+  background: $white;
+  font-size: 14px;
+  color: $text;
+  outline: none;
+  cursor: pointer;
+
+  &:focus {
+    border-color: $primary;
+  }
+}
+
+// --- Table ---
+.ceramics-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    padding: 16px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    color: $text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: #F8FAFC;
+    border-bottom: 1px solid #F1F5F9;
+  }
+
+  td {
+    padding: 16px;
+    font-size: 14px;
+    color: $text;
+    border-bottom: 1px solid #F8FAFC;
+  }
+
+  tbody tr {
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: #FAFBFC;
+    }
+  }
+}
+
+// --- Empty State ---
+.ceramics-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: $text-secondary;
+
+  svg {
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  p {
+    font-size: 14px;
+  }
+}
+
+// --- Loading ---
+.ceramics-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+
+  .spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid $border;
+    border-top-color: $primary;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,22 @@
+// --- 主题配置 ---
+$primary: #4F46E5; // Indigo 600
+$secondary: #0EA5E9; // Sky 500
+$accent: #8B5CF6; // Violet 500
+$bg: #F1F5F9; // Slate 100
+$text: #0F172A; // Slate 900
+$text-secondary: #64748B; // Slate 500
+$white: #FFFFFF;
+$border: #E2E8F0; // Slate 200
+$success: #10B981;
+$warning: #F59E0B;
+$danger: #EF4444;
+
+// 状态主题
+$status-themes: (
+  '已上架': ('bg': #E8F5E9, 'text': #2E7D32, 'border': #A5D6A7),
+  '已下架': ('bg': #F5F5F5, 'text': #666666, 'border': #E0E0E0),
+  '待发货': ('bg': #FFF3E0, 'text': #E65100, 'border': #FFCC80),
+  '已发货': ('bg': #E3F2FD, 'text': #1565C0, 'border': #90CAF9),
+  '已完成': ('bg': #E8F5E9, 'text': #2E7D32, 'border': #A5D6A7),
+  '已取消': ('bg': #FFEBEE, 'text': #C62828, 'border': #EF9A9A)
+);
