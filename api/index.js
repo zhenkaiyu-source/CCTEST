@@ -1,15 +1,6 @@
-// Vercel Serverless API Handler
-// 适配 Vercel 无服务器部署
+// Vercel Serverless Function
+// 使用 /api/* 路径自动映射
 
-const express = require('express')
-const cors = require('cors')
-const app = express()
-
-// 中间件
-app.use(cors())
-app.use(express.json())
-
-// ============== 内存数据库 ==============
 const db = {
   users: [
     { id: 1, phone: '13800138000', password: '123456', name: '张三', role: 'user', avatar: '张', createdAt: new Date().toISOString() },
@@ -29,125 +20,59 @@ const db = {
   favorites: []
 }
 
-// Token 生成（简化版）
 function generateToken(user) {
   return Buffer.from(JSON.stringify({ id: user.id, phone: user.phone, role: user.role })).toString('base64')
 }
 
-// ============== API 路由 ==============
+module.exports = (req, res) => {
+  const { url } = req
 
-// 登录
-app.post('/api/login', (req, res) => {
-  const { phone, password } = req.body
-  const user = db.users.find(u => u.phone === phone && u.password === password)
+  // CORS 头
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
 
-  if (user) {
-    res.json({
-      code: 0,
-      data: {
-        token: generateToken(user),
-        user: { id: user.id, name: user.name, phone: user.phone, role: user.role, avatar: user.avatar }
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end()
+  }
+
+  // 路由分发
+  try {
+    if (url === '/api/login' && req.method === 'POST') {
+      const { phone, password } = req.body
+      const user = db.users.find(u => u.phone === phone && u.password === password)
+      if (user) {
+        return res.json({ code: 0, data: { token: generateToken(user), user: { id: user.id, name: user.name, phone: user.phone, role: user.role, avatar: user.avatar } } })
       }
-    })
-  } else {
-    res.json({ code: 401, message: '账号或密码错误' })
-  }
-})
-
-// 用户列表
-app.get('/api/users/list', (req, res) => {
-  res.json({
-    code: 0,
-    data: db.users.map(u => ({ id: u.id, name: u.name, phone: u.phone, role: u.role }))
-  })
-})
-
-// 作品列表
-app.get('/api/works/list', (req, res) => {
-  res.json({
-    code: 0,
-    data: db.works.filter(w => w.status === 'active')
-  })
-})
-
-// 作品详情
-app.get('/api/works/:id', (req, res) => {
-  const work = db.works.find(w => w.id === parseInt(req.params.id))
-  if (work) {
-    res.json({ code: 0, data: work })
-  } else {
-    res.json({ code: 404, message: '作品不存在' })
-  }
-})
-
-// 分类列表
-app.get('/api/categories', (req, res) => {
-  const categories = [...new Set(db.works.map(w => w.category))]
-  res.json({ code: 0, data: categories })
-})
-
-// 购物车
-app.get('/api/cart/:userId', (req, res) => {
-  const items = db.cart.filter(c => c.userId === parseInt(req.params.userId))
-  res.json({ code: 0, data: items })
-})
-
-app.post('/api/cart/add', (req, res) => {
-  const { userId, workId, quantity } = req.body
-  db.cart.push({ id: Date.now(), userId, workId, quantity, createdAt: new Date().toISOString() })
-  res.json({ code: 0, message: '添加成功' })
-})
-
-// 收藏
-app.get('/api/favorites/:userId', (req, res) => {
-  const items = db.favorites.filter(f => f.userId === parseInt(req.params.userId))
-  res.json({ code: 0, data: items })
-})
-
-app.post('/api/favorites/add', (req, res) => {
-  const { userId, workId } = req.body
-  db.favorites.push({ id: Date.now(), userId, workId, createdAt: new Date().toISOString() })
-  res.json({ code: 0, message: '收藏成功' })
-})
-
-// 订单
-app.get('/api/orders/:userId', (req, res) => {
-  const items = db.orders.filter(o => o.userId === parseInt(req.params.userId))
-  res.json({ code: 0, data: items })
-})
-
-app.post('/api/orders/create', (req, res) => {
-  const { userId, items, total } = req.body
-  const order = {
-    id: Date.now(),
-    orderNo: `DD${Date.now()}`,
-    userId,
-    items,
-    total,
-    status: 'paid',
-    createdAt: new Date().toISOString()
-  }
-  db.orders.push(order)
-  res.json({ code: 0, data: order, message: '订单创建成功' })
-})
-
-// 艺术家作品
-app.get('/api/creator/works/:creatorId', (req, res) => {
-  const items = db.works.filter(w => w.creatorId === parseInt(req.params.creatorId))
-  res.json({ code: 0, data: items })
-})
-
-// 统计数据
-app.get('/api/stats', (req, res) => {
-  res.json({
-    code: 0,
-    data: {
-      totalWorks: db.works.length,
-      totalUsers: db.users.length,
-      totalOrders: db.orders.length,
-      totalSales: db.works.reduce((sum, w) => sum + w.sales, 0)
+      return res.status(401).json({ code: 401, message: '账号或密码错误' })
     }
-  })
-})
 
-module.exports = app
+    if (url === '/api/users/list' && req.method === 'GET') {
+      return res.json({ code: 0, data: db.users.map(u => ({ id: u.id, name: u.name, phone: u.phone, role: u.role })) })
+    }
+
+    if (url === '/api/works/list' && req.method === 'GET') {
+      return res.json({ code: 0, data: db.works.filter(w => w.status === 'active') })
+    }
+
+    if (url.match(/^\/api\/works\/\d+$/) && req.method === 'GET') {
+      const id = parseInt(url.split('/')[3])
+      const work = db.works.find(w => w.id === id)
+      if (work) return res.json({ code: 0, data: work })
+      return res.status(404).json({ code: 404, message: '作品不存在' })
+    }
+
+    if (url === '/api/categories' && req.method === 'GET') {
+      const categories = [...new Set(db.works.map(w => w.category))]
+      return res.json({ code: 0, data: categories })
+    }
+
+    if (url === '/api/stats' && req.method === 'GET') {
+      return res.json({ code: 0, data: { totalWorks: db.works.length, totalUsers: db.users.length, totalOrders: db.orders.length, totalSales: db.works.reduce((sum, w) => sum + w.sales, 0) } })
+    }
+
+    return res.status(404).json({ error: 'Not Found' })
+  } catch (err) {
+    return res.status(500).json({ error: err.message })
+  }
+}

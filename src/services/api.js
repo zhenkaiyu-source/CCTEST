@@ -1,5 +1,5 @@
 // API 服务 - Vercel 部署版本
-const API_BASE = import.meta.env.PROD ? '' : 'http://localhost:3003/api'
+const API_BASE = import.meta.env.PROD ? '/api' : 'http://localhost:3003/api'
 
 async function request(endpoint, options = {}) {
   const token = localStorage.getItem('ceramics_token')
